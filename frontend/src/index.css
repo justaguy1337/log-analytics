@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-white font-sans;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-dark-surface border border-dark-border rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-neon-green hover:shadow-lg hover:shadow-neon-green/20 transition-all duration-300;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-neon-green text-black hover:bg-neon-green hover:shadow-lg hover:shadow-neon-green/50 btn;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-surface border border-neon-green text-neon-green hover:bg-neon-green/10 btn;
+  }
+
+  .badge {
+    @apply inline-block px-3 py-1 rounded-full text-sm font-semibold;
+  }
+
+  .badge-success {
+    @apply bg-neon-green text-black;
+  }
+
+  .badge-danger {
+    @apply bg-red-500 text-white;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-500 text-black;
+  }
+
+  .input {
+    @apply bg-dark-surface border border-dark-border rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-neon-green focus:ring-1 focus:ring-neon-green transition-all duration-200;
+  }
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 136, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 136, 0.6);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
