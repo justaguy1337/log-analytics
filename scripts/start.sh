@@ -23,16 +23,16 @@ if [ ! -d "$PROJECT_ROOT/backend" ] || [ ! -d "$PROJECT_ROOT/frontend" ]; then
 fi
 
 # Check if venv exists
-if [ ! -d "$PROJECT_ROOT/.venv" ]; then
-    echo -e "${RED}Error: Virtual environment not found at $PROJECT_ROOT/.venv${NC}"
+if [ ! -d "$PROJECT_ROOT/venv" ]; then
+    echo -e "${RED}Error: Virtual environment not found at $PROJECT_ROOT/venv${NC}"
     echo "Please create it first:"
-    echo "  cd $PROJECT_ROOT && python -m venv .venv"
+    echo "  cd $PROJECT_ROOT && python -m venv venv"
     exit 1
 fi
 
 # Activate virtual environment
 cd "$PROJECT_ROOT"
-source .venv/bin/activate
+source venv/bin/activate
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Failed to activate virtual environment${NC}"
     exit 1
