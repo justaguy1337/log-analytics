@@ -375,12 +375,12 @@ Command: 2 terminal commands
 ### Option 2: Shell Script
 Time: 2 minutes
 Effort: Very Low
-Command: `./start.sh` or `start.bat`
+Command: `./scripts/start.sh` or `.\scripts\start.bat`
 
 ### Option 3: Docker
 Time: 2 minutes
 Effort: Very Low
-Command: `docker-compose up`
+Command: `cd docker && docker-compose up`
 
 ### Option 4: Production
 Time: 1 hour (with modifications)

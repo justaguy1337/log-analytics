@@ -132,7 +132,7 @@ log-analytics/ (3,500+ lines of code)
 ├── Dockerfile.backend             [Backend container]
 ├── Dockerfile.frontend            [Frontend container]
 ├── start.sh                       [Linux/Mac startup]
-├── start.bat                      [Windows startup]
+├── start.bat                      [Windows startup → moved to scripts/]
 ├── .env.example                   [Config template]
 └── .gitignore                     [Git configuration]
 ```

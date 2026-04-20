@@ -39,15 +39,15 @@ Then open: **http://localhost:5173**
 ### Option B: Shell Script
 ```bash
 # Linux/Mac
-chmod +x start.sh && ./start.sh
+chmod +x scripts/start.sh && ./scripts/start.sh
 
 # Windows
-start.bat
+.\scripts\start.bat
 ```
 
 ### Option C: Docker
 ```bash
-docker-compose up
+cd docker && docker-compose up
 ```
 Then open: **http://localhost:5173**
 
@@ -189,7 +189,7 @@ API_CORS_ORIGINS=*
 
 ### Option 2: Docker Compose
 - Best for: Quick deployment, isolated environment
-- Command: `docker-compose up`
+- Command: `cd docker && docker-compose up`
 - Features: Container networking, health checks
 
 ### Option 3: Production
@@ -326,8 +326,13 @@ log-analytics/
 ├── FILES_REFERENCE.md      # File guide
 ├── COMPLETED.md            # Project summary
 ├── requirements.txt        # Python deps
-├── docker-compose.yml      # Docker setup
-├── start.sh               # Startup script
+├── docker/
+│   ├── docker-compose.yml  # Docker setup
+│   ├── Dockerfile.backend  # Backend container
+│   └── Dockerfile.frontend # Frontend container
+├── scripts/
+│   ├── start.sh            # Startup script (Linux/Mac)
+│   └── start.bat           # Startup script (Windows)
 └── .env.example           # Config template
 ```
 

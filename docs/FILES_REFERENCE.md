@@ -108,11 +108,11 @@ This guide explains every file in the project and its purpose.
 | `requirements.txt` | Python dependencies (13 packages) |
 | `.env.example` | Environment variables template |
 | `.gitignore` | Git ignore patterns |
-| `docker-compose.yml` | Docker Compose multi-container setup |
-| `Dockerfile.backend` | Backend container definition |
-| `Dockerfile.frontend` | Frontend container definition |
-| `start.sh` | Linux/Mac startup script |
-| `start.bat` | Windows startup script |
+| `docker/docker-compose.yml` | Docker Compose multi-container setup |
+| `docker/Dockerfile.backend` | Backend container definition |
+| `docker/Dockerfile.frontend` | Frontend container definition |
+| `scripts/start.sh` | Linux/Mac startup script |
+| `scripts/start.bat` | Windows startup script |
 
 ---
 
