@@ -57,6 +57,7 @@ class SequenceGenerator:
         """
         Generate sequences from dictionary of log sequences.
         Used for HDFS where logs are already grouped by block ID.
+        Shorter sequences are padded with zeros; longer sequences use sliding window.
         
         Args:
             logs_dict: Dictionary mapping IDs to event sequences
@@ -70,24 +71,23 @@ class SequenceGenerator:
         sequence_ids = []
 
         for seq_id, event_list in logs_dict.items():
-            if len(event_list) >= self.sequence_length:
-                # Pad or truncate to sequence_length
-                if len(event_list) > self.sequence_length:
-                    # Use sliding window
-                    for i in range(0, len(event_list) - self.sequence_length + 1):
-                        sequences.append(event_list[i:i + self.sequence_length])
-                        sequence_ids.append(f"{seq_id}_{i}")
-                        
-                        label = labels_dict.get(seq_id, 0) if labels_dict else 0
-                        sequence_labels.append(label)
-                else:
-                    # Pad with zeros
-                    padded = event_list + [0] * (self.sequence_length - len(event_list))
-                    sequences.append(padded)
-                    sequence_ids.append(seq_id)
-                    
+            if not event_list:  # Skip empty sequences
+                continue
+                
+            if len(event_list) > self.sequence_length:
+                # Use sliding window for long sequences
+                for i in range(0, len(event_list) - self.sequence_length + 1):
+                    sequences.append(event_list[i:i + self.sequence_length])
+                    sequence_ids.append(f"{seq_id}_{i}")
                     label = labels_dict.get(seq_id, 0) if labels_dict else 0
                     sequence_labels.append(label)
+            else:
+                # Pad with zeros for short sequences
+                padded = event_list + [0] * (self.sequence_length - len(event_list))
+                sequences.append(padded)
+                sequence_ids.append(seq_id)
+                label = labels_dict.get(seq_id, 0) if labels_dict else 0
+                sequence_labels.append(label)
 
         return sequences, sequence_labels, sequence_ids
 

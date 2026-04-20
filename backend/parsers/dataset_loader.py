@@ -1,6 +1,5 @@
 """Dataset loader for HDFS, BGL, and OpenStack logs."""
 import os
-import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple
 from pathlib import Path
@@ -15,7 +14,7 @@ class DatasetLoader:
 
     def load_hdfs_v1(self) -> Tuple[Dict, Dict]:
         """
-        Load HDFS_v1 dataset.
+        Load HDFS_v1 dataset from numpy file (loads sample for demo).
         
         Returns:
             Tuple of (logs_dict, labels_dict)
@@ -25,33 +24,47 @@ class DatasetLoader:
         if not hdfs_dir.exists():
             return {}, {}
 
-        logs = {}
-        labels = {}
-
-        # Load preprocessed data if available
+        # Load from preprocessed numpy file (sample for demo)
         preprocessed_dir = hdfs_dir / "preprocessed"
-        if preprocessed_dir.exists():
-            # Load event traces
-            traces_file = preprocessed_dir / "Event_traces.csv"
-            if traces_file.exists():
-                df = pd.read_csv(traces_file)
-                for _, row in df.iterrows():
-                    block_id = row.get('BlockId', 'unknown')
-                    event_id = row.get('EventId', -1)
-                    if block_id not in logs:
-                        logs[block_id] = []
-                    logs[block_id].append(int(event_id))
-
-            # Load anomaly labels
-            labels_file = preprocessed_dir / "anomaly_label.csv"
-            if labels_file.exists():
-                df = pd.read_csv(labels_file)
-                for _, row in df.iterrows():
-                    block_id = row.get('BlockId', row.get('block_id', 'unknown'))
-                    label = row.get('Label', row.get('label', 0))
-                    labels[block_id] = int(label)
-
-        return logs, labels
+        npz_file = preprocessed_dir / "HDFS.npz"
+        
+        if npz_file.exists():
+            # Load only first N samples for demo performance
+            SAMPLE_SIZE = 1000  # Load only 1000 samples for demo
+            data = np.load(npz_file, allow_pickle=True)
+            x_data = data['x_data'][:SAMPLE_SIZE]  # Get only first SAMPLE_SIZE
+            y_data = data['y_data'][:SAMPLE_SIZE]
+            
+            logs = {}
+            labels = {}
+            
+            # Convert to dictionary format
+            for idx in range(len(x_data)):
+                sequence = x_data[idx]
+                label = y_data[idx]
+                seq_id = f"blk_{idx}"
+                
+                # Convert sequence to list of integers
+                event_ids = []
+                for event_str in sequence:
+                    if isinstance(event_str, str) and event_str.startswith('E'):
+                        try:
+                            event_ids.append(int(event_str[1:]))
+                        except ValueError:
+                            pass
+                    else:
+                        try:
+                            event_ids.append(int(event_str))
+                        except (ValueError, TypeError):
+                            pass
+                
+                if event_ids:
+                    logs[seq_id] = event_ids
+                    labels[seq_id] = int(label)
+            
+            return logs, labels
+        
+        return {}, {}
 
     def load_bgl(self) -> Tuple[List[str], List[int]]:
         """

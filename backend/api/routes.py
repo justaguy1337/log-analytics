@@ -117,18 +117,12 @@ async def process_logs(request: ProcessLogsRequest):
             )
             seq_ids = [f"seq_{i}" for i in range(len(sequences))]
 
-        # Encode features
-        feature_encoder.build_vocabulary(sequences)
-        encoded_seqs = feature_encoder.encode_sequences(sequences)
-        features = feature_encoder.extract_statistical_features(sequences)
-        features_normalized = feature_encoder.normalize_features(features, fit=True)
-
+        # Return basic processing info
         return {
             "dataset": dataset_name,
             "total_logs": len(logs),
             "total_sequences": len(sequences),
             "sequence_length": request.sequence_length,
-            "vocab_size": feature_encoder.vocab_size,
             "status": "processed"
         }
 
